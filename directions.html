@@ -1,0 +1,118 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="is-smooth-scroll-compatible is-loading">
+  <head>
+    <!-- 렌더 게이트: 매핑 전 placeholder/fallback 깜빡임 방지 (매핑 완료 시 페이드인) -->
+    <style>html.tpl-loading body{opacity:0}body{opacity:1;transition:opacity .3s ease}</style>
+    <script>document.documentElement.classList.add('tpl-loading');window.__tplReveal=function(){document.documentElement.classList.remove('tpl-loading');};setTimeout(function(){window.__tplReveal&&window.__tplReveal();},3000);</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title data-page-title>포항 연오랑파크 풀빌라 - 오시는길</title>
+    <link rel="icon" href="data:," />
+    <!-- SEO: homepage.seo → preview-handler.applySeo()가 title/description/keywords/og 동적 주입 (하드코딩 없음) -->
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" type="text/css" href="styles/reset.css" />
+    <link rel="stylesheet" type="text/css" href="styles/theme.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="styles/vendor/swiper-bundle.min.css" />
+
+    <script src="js/gsap.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/locomotive-scroll.min.js"></script>
+
+    <script nomodule="" src="js/polyfill.min.js" crossorigin="anonymous"></script>
+    <script
+      nomodule=""
+      src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CElement.prototype.append%2CNodeList.prototype.forEach%2CCustomEvent%2Csmoothscroll"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Open Graph Meta Tags for Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="포항 연오랑파크 풀빌라 - 오시는길" />
+  <meta property="og:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta property="og:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta property="og:url" content="https://yeonolangpark.kr" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="포항 연오랑파크 풀빌라 - 오시는길" />
+  <meta name="twitter:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta name="twitter:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta name="naver-site-verification" content="853727eb19358bf42dcb670f44c7609b4c606e91" />
+  <meta name="google-site-verification" content="alH5mOMJKNmCvtyfRiRI78gI2qA293hcGFrhZhpcANw" />
+</head>
+  <body>
+    <div id="header-wrap"></div>
+
+    <div class="scroll-wrap" id="doc" data-scroll-container="">
+      <div id="container" class="fadeDown" data-scroll="">
+        <div class="sub_visual visual tour">
+          <div class="visual_box">
+            <div class="swiper-container svisual">
+              <!-- data-* : data-directions-hero-slides | customFields.pages.directions.sections[0].hero.images[isSelected] (배경 슬라이드 동적 생성) -->
+              <div class="swiper-wrapper" data-directions-hero-slides>
+                <!-- MAPPER: hero.images 기준 .swiper-slide>.img(background) 동적 생성 -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="snb_wrap">
+          <ul>
+            <!-- ABOUT 서브탭: 정적 (외부풍경=main, 오시는길=directions 현재) -->
+            <li><a href="main.html">외부풍경</a></li>
+            <li class="active"><a href="directions.html">오시는길</a></li>
+          </ul>
+        </div>
+        <section id="content" class="sub">
+          <!-- s: reser-wrap -->
+          <div class="reser-wrap" id="direction">
+            <div class="sub_title">
+              <!-- data-* : data-directions-title | customFields.pages.directions.sections[0].hero.title (없으면 '{숙소명}에 찾아 오시는 길을 안내해 드립니다.' fallback은 mapper 주입) -->
+              <p class="sub_txt" data-directions-title></p>
+            </div>
+            <div class="sub_cont inner">
+              <div class="map_box">
+                <div class="map">
+                  <!-- data-* : #kakao-map | property.latitude / property.longitude (kakao-maps-sdk로 지도+마커 렌더, trip-c/d 방식) -->
+                  <div id="kakao-map" style="width: 100%; height: 360px; background-color: #f0f0f0"></div>
+                </div>
+              </div>
+              <div class="map_info">
+                <dl>
+                  <!-- data-* : data-directions-notice-title | customFields.pages.directions.sections[0].notice.title -->
+                  <dt data-directions-notice-title>이용안내</dt>
+                  <!-- data-* : data-directions-notice-description | customFields.pages.directions.sections[0].notice.description (\n→<br>) -->
+                  <dd data-directions-notice-description></dd>
+                  <!-- data-* : data-property-address | property.address -->
+                  <dt>주소</dt>
+                  <dd data-property-address></dd>
+                  <!-- data-* : data-property-phone | property.businessInfo.businessPhone (data-property-phone-link: tel:) -->
+                  <dt>전화</dt>
+                  <dd><a href="tel:" data-property-phone-link><span data-property-phone></span></a></dd>
+                </dl>
+              </div>
+            </div>
+          </div>
+        </section>
+        <!-- e: content -->
+      </div>
+      <!-- e: container -->
+      <div id="footer-wrap"></div>
+    </div>
+    <!-- e: scroll-wrap -->
+
+    <!-- s: #wrap -->
+    <!-- infra: 데이터 매핑 & 동적 헤더/푸터 -->
+    <script src="js/image-helpers.js"></script>
+    <script src="js/preview-handler.js"></script>
+    <script src="js/data-mapper/core/base-mapper.js"></script>
+    <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+    <script src="js/data-mapper/pages/directions-mapper.js"></script>
+    <script src="js/header-footer-loader.js"></script>
+    <!-- 카카오 지도 SDK -->
+    <script type="text/javascript" src="js/kakao-maps-sdk.js"></script>
+    <!-- 페이지 인터랙션 (vanilla) -->
+    <script src="js/common.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>

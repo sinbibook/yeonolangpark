@@ -1,0 +1,208 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="is-smooth-scroll-compatible is-loading">
+  <head>
+    <!-- 렌더 게이트: 매핑 전 placeholder/fallback 깜빡임 방지 (매핑 완료 시 페이드인) -->
+    <style>html.tpl-loading body{opacity:0}body{opacity:1;transition:opacity .3s ease}</style>
+    <script>document.documentElement.classList.add('tpl-loading');window.__tplReveal=function(){document.documentElement.classList.remove('tpl-loading');};setTimeout(function(){window.__tplReveal&&window.__tplReveal();},3000);</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title data-page-title>포항 연오랑파크 풀빌라 - 시설안내</title>
+    <link rel="icon" href="data:," />
+    <!-- SEO: homepage.seo → preview-handler.applySeo()가 title/description/keywords/og 동적 주입 (하드코딩 없음) -->
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" type="text/css" href="styles/reset.css" />
+    <link rel="stylesheet" type="text/css" href="styles/theme.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="styles/vendor/swiper-bundle.min.css" />
+
+    <script src="js/gsap.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/locomotive-scroll.min.js"></script>
+
+    <script nomodule="" src="js/polyfill.min.js" crossorigin="anonymous"></script>
+    <script
+      nomodule=""
+      src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CElement.prototype.append%2CNodeList.prototype.forEach%2CCustomEvent%2Csmoothscroll"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Open Graph Meta Tags for Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="포항 연오랑파크 풀빌라 - 시설안내" />
+  <meta property="og:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta property="og:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta property="og:url" content="https://yeonolangpark.kr" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="포항 연오랑파크 풀빌라 - 시설안내" />
+  <meta name="twitter:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta name="twitter:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta name="naver-site-verification" content="853727eb19358bf42dcb670f44c7609b4c606e91" />
+  <meta name="google-site-verification" content="alH5mOMJKNmCvtyfRiRI78gI2qA293hcGFrhZhpcANw" />
+</head>
+  <body>
+
+    <div id="wrap">
+      <div id="header-wrap"></div>
+
+      <!-- s: scroll-wrap -->
+      <div class="scroll-wrap" id="doc" data-scroll-container="">
+        <!-- s: container -->
+        <div id="container" class="fadeDown" data-scroll="">
+          <!-- s: sub_visual -->
+          <div class="sub_visual visual">
+            <div class="visual_box">
+              <div class="visual_control">
+                <div
+                  class="swiper-arw swiper-button-prev"
+                  style="
+                    background: url('images/visual_prev.webp') no-repeat left center;
+                    background-size: auto 100%;
+                  "
+                ></div>
+                <div class="paging swiper-pagination"></div>
+                <div
+                  class="swiper-arw swiper-button-next"
+                  style="
+                    background: url('images/visual_next.webp') no-repeat right center;
+                    background-size: auto 100%;
+                  "
+                ></div>
+              </div>
+              <div class="swiper-container svisual">
+                <!-- data-* : data-facility-hero-slides | property.facilities[current].images[isSelected] (배경 슬라이드 동적 생성) -->
+                <div class="swiper-wrapper" data-facility-hero-slides>
+                  <!-- MAPPER: facility 이미지 기준 .swiper-slide>.img(background) 동적 생성 -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- e: sub_visual -->
+          <div id="snb_wrap">
+            <!-- data-* : data-facility-nav | property.facilities[] (동적 생성, 현재 facility active, facility.html?id={id}) -->
+            <ul data-facility-nav>
+              <!-- MAPPER: facilities[] 기준 <li><a href="facility.html?id={id}">{name}</a></li>, 현재 active -->
+            </ul>
+          </div>
+
+          <!-- s: content -->
+          <section id="content" class="sub">
+            <!-- s: special_wrap -->
+            <div class="special_wrap">
+              <div class="info">
+                <div class="img">
+                  <!-- data-* : data-facility-image | property.facilities[current].images[isSelected][0].url (배경, 없으면 placeholder) -->
+                  <p
+                    class="fadeLeft"
+                    data-scroll=""
+                    data-facility-image
+                    style="background-position: center center; background-repeat: no-repeat"
+                  ></p>
+                  <span class="bg fadeRight" data-scroll=""></span>
+                </div>
+                <div class="txt">
+                  <!-- 영문 라벨: 정적 -->
+                  <p class="btxt fadeUp" data-scroll="">SPECIAL</p>
+                  <!-- data-* : data-facility-name | property.facilities[current].name -->
+                  <p class="stxt fadeUp" data-scroll="" data-facility-name></p>
+                  <div class="ctxt fadeUp" data-scroll="">
+                    <!-- data-* : data-facility-description | property.facilities[current].description (\n→<br>) -->
+                    <p data-facility-description></p>
+                  </div>
+                </div>
+              </div>
+              <!-- data-* : data-facility-gallery | property.facilities[current].images[isSelected] (각 li p배경 순서대로 주입) -->
+              <div class="list" data-facility-gallery>
+                <ul>
+                  <li class="fadeUp" data-scroll="">
+                    <div class="img">
+                      <p style="background-position: center center; background-repeat: no-repeat"></p>
+                    </div>
+                  </li>
+                  <li class="fadeUp" data-scroll="">
+                    <div class="img">
+                      <p style="background-position: center center; background-repeat: no-repeat"></p>
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+            <div class="main_special" style="background: color-mix(in srgb, var(--color-primary) 55%, transparent)">
+              <div class="cont fadeUp" data-scroll="">
+                <div class="fl">
+                  <div class="swiper-container spec-img">
+                    <!-- data-* : data-index-special-slides | property.facilities[] (이미지 슬라이드 동적, facility.html?id={id}) -->
+                    <div class="swiper-wrapper" data-index-special-slides>
+                      <!-- MAPPER: facilities[] 기준 .swiper-slide.item > a > .img(background) 동적 생성 -->
+                    </div>
+                  </div>
+                </div>
+                <div class="fr">
+                  <!-- data-* : data-index-special-titles | property.facilities[] (각 .txt-con: btxt='special' + stxt=name 동적) -->
+                  <div class="spec-tit" data-index-special-titles>
+                    <!-- MAPPER: facilities[] 기준 .txt-con(첫번째 on) 동적 생성 -->
+                  </div>
+                  <div class="swiper-container spec-txt">
+                    <!-- data-* : data-index-special-texts | property.facilities[] (각 슬라이드 btxt='SPECIAL 0N' + stxt=description 동적) -->
+                    <div class="swiper-wrapper" data-index-special-texts>
+                      <!-- MAPPER: facilities[] 기준 .swiper-slide.item > .txt 동적 생성 -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+                </div>
+                <div class="btns">
+                  <a
+                    href="#n"
+                    class="spec-prev"
+                    style="background-image: url(images/special_prev.webp)"
+                  ></a>
+                  <a
+                    href="#n"
+                    class="spec-next"
+                    style="background-image: url(images/special_next.webp)"
+                  ></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 배경: 디자인 기본 이미지(real_bg) 유지 -->
+            <div
+              class="main_reserve"
+              style="
+                background: url(images/real_bg.webp) no-repeat center top;
+                background-size: cover;
+              "
+            >
+              <div class="cont">
+                <p
+                  class="fadeUp"
+                  data-scroll=""
+                  style="background: url(images/real_dots.png) no-repeat center top"
+                ></p>
+                <!-- data-* : data-closing-description | customFields.pages.index.sections[0].closing.description -->
+                <p class="fadeUp" data-scroll="" data-closing-description></p>
+                <!-- data-* : data-booking-link | property.realtimeBookingId -->
+                <a href="#!" target="_blank" class="fadeUp" data-scroll="" data-booking-link>
+                  <span>예약하기</span>
+                </a>
+              </div>
+            </div>
+
+            <div id="footer-wrap"></div>
+          </section>
+        </div>
+      </div>
+    </div>
+    <!-- infra: 데이터 매핑 & 동적 헤더/푸터 -->
+    <script src="js/image-helpers.js"></script>
+    <script src="js/preview-handler.js"></script>
+    <script src="js/data-mapper/core/base-mapper.js"></script>
+    <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+    <script src="js/data-mapper/pages/facility-mapper.js"></script>
+    <script src="js/header-footer-loader.js"></script>
+    <!-- 페이지 인터랙션 (vanilla) -->
+    <script src="js/common.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>

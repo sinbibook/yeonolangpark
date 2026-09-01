@@ -1,0 +1,290 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" class="is-smooth-scroll-compatible is-loading">
+  <head>
+    <!-- 렌더 게이트: 매핑 전 placeholder/fallback 깜빡임 방지 (매핑 완료 시 페이드인) -->
+    <style>html.tpl-loading body{opacity:0}body{opacity:1;transition:opacity .3s ease}</style>
+    <script>document.documentElement.classList.add('tpl-loading');window.__tplReveal=function(){document.documentElement.classList.remove('tpl-loading');};setTimeout(function(){window.__tplReveal&&window.__tplReveal();},3000);</script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title data-page-title>포항 연오랑파크 풀빌라 - 객실안내</title>
+    <link rel="icon" href="data:," />
+    <!-- SEO: homepage.seo → preview-handler.applySeo()가 title/description/keywords/og 동적 주입 (하드코딩 없음) -->
+    <meta property="og:type" content="website" />
+    <link rel="stylesheet" type="text/css" href="styles/reset.css" />
+    <link rel="stylesheet" type="text/css" href="styles/theme.css" />
+    <link rel="stylesheet" type="text/css" href="styles/style.css" />
+    <link rel="stylesheet" type="text/css" href="styles/vendor/swiper-bundle.min.css" />
+
+    <script src="js/gsap.min.js"></script>
+    <script src="js/ScrollTrigger.min.js"></script>
+    <script type="text/javascript" src="js/swiper-bundle.min.js"></script>
+    <script type="text/javascript" src="js/locomotive-scroll.min.js"></script>
+
+    <script nomodule="" src="js/polyfill.min.js" crossorigin="anonymous"></script>
+    <script
+      nomodule=""
+      src="https://polyfill.io/v3/polyfill.min.js?features=Object.assign%2CElement.prototype.append%2CNodeList.prototype.forEach%2CCustomEvent%2Csmoothscroll"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Open Graph Meta Tags for Social Media -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="포항 연오랑파크 풀빌라 - 객실안내" />
+  <meta property="og:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta property="og:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta property="og:url" content="https://yeonolangpark.kr" />
+
+  <!-- Twitter Card Meta Tags -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="포항 연오랑파크 풀빌라 - 객실안내" />
+  <meta name="twitter:description" content="포항 연오랑파크 풀빌라에서 따뜻한 온수수영장과 프라이빗 독채, 개별바베큐를 즐기며 가족·커플을 위한 감성 가득한 힐링 여행을 경험해보세요." />
+  <meta name="twitter:image" content="https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg" />
+  <meta name="naver-site-verification" content="853727eb19358bf42dcb670f44c7609b4c606e91" />
+  <meta name="google-site-verification" content="alH5mOMJKNmCvtyfRiRI78gI2qA293hcGFrhZhpcANw" />
+</head>
+  <body>
+    <div id="wrap">
+      <div id="header-wrap"></div>
+
+      <div class="scroll-wrap" id="doc" data-scroll-container="">
+        <div id="container" class="fadeDown" data-scroll="">
+          <!-- s: sub_visual -->
+          <div class="sub_visual visual">
+            <div class="visual_box">
+              <div class="visual_control">
+                <div
+                  class="swiper-arw swiper-button-prev"
+                  style="
+                    background: url('images/visual_prev.png') no-repeat left center;
+                    background-size: auto 100%;
+                  "
+                ></div>
+                <div class="paging swiper-pagination"></div>
+                <div
+                  class="swiper-arw swiper-button-next"
+                  style="
+                    background: url('images/visual_next.png') no-repeat right center;
+                    background-size: auto 100%;
+                  "
+                ></div>
+              </div>
+              <div class="swiper-container svisual">
+                <!-- data-* : data-room-hero-slides | customFields.roomtypes[current] interior 이미지[isSelected] (배경 슬라이드 동적 생성) -->
+                <div class="swiper-wrapper" data-room-hero-slides>
+                  <!-- MAPPER: interior 이미지 기준 .swiper-slide>.img(background) 동적 생성 -->
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- s: snb_wrap -->
+          <div id="snb_wrap">
+            <!-- data-* : data-room-list-nav | customFields.roomtypes[] (미리보기 제외 동적 생성, 현재 room_id active) -->
+            <ul data-room-list-nav>
+              <li><a href="layout-map.html">미리보기</a></li>
+              <!-- MAPPER: roomtypes[] 기준 <li><a href="room.html?room_id={id}">{name}</a></li>, 현재 객실 active -->
+            </ul>
+          </div>
+
+          <section id="content" class="sub">
+            <!-- s: room_wrap -->
+            <div class="room_wrap">
+              <div class="info">
+                <div class="fr">
+                  <div class="txt">
+                    <!-- data-* : data-room-name | customFields.roomtypes[current].name -->
+                    <p class="btxt fadeUp" data-scroll="" data-room-name></p>
+                    <!-- data-* : data-room-structure | rooms[matched].roomStructures[0] + totalRoomCount -->
+                    <p class="stxt fadeUp" data-scroll="" data-room-structure></p>
+                    <!-- data-* : data-booking-link | property.realtimeBookingId -->
+                    <a href="#!" target="_blank" class="fadeUp" data-scroll="" data-booking-link>
+                      <span>예약하기</span>
+                    </a>
+                  </div>
+                  <!-- data-* : data-room-thumbs | roomtypes[current] interior 이미지 (li 배경, 2칸) -->
+                  <ul data-room-thumbs>
+                    <li class="fadeUp" data-scroll=""></li>
+                    <li class="fadeUp" data-scroll=""></li>
+                  </ul>
+                </div>
+                <div class="fl">
+                  <div class="img fadeUp" data-scroll="">
+                    <!-- data-* : data-room-image-main | roomtypes[current] interior 이미지[0] (배경) -->
+                    <p data-room-image-main></p>
+                    <span></span>
+                  </div>
+                </div>
+                <div class="mobile">
+                  <!-- data-* : data-room-thumbs-m | roomtypes[current] interior 이미지 (img, 2칸) -->
+                  <ul data-room-thumbs-m>
+                    <li class="fadeUp" data-scroll=""><img alt="" /></li>
+                    <li class="fadeUp" data-scroll=""><img alt="" /></li>
+                  </ul>
+                </div>
+              </div>
+              <div class="inst">
+                <!-- data-* : data-room-intro | rooms[matched].roomInfo (없으면 비움) -->
+                <h3 class="fadeUp" data-scroll="" data-room-intro></h3>
+                <!-- 영문 소개 문구: 디자인 장식 (정적 유지) -->
+                <p class="stit fadeUp" data-scroll="">
+                  We invite you to the emotional space where you can feel the warm scent.
+                </p>
+                <div class="cont fadeUp" data-scroll="">
+                  <div class="price_table for_pc">
+                    <table cellspacing="0" cellpadding="0" class="table_default">
+                      <thead>
+                        <tr>
+                          <th style="width: 15%">객실명</th>
+                          <th style="width: 5%">기준</th>
+                          <th style="width: 5%">최대</th>
+                          <th style="width: 20%">유형</th>
+                          <th style="width: 20%">평형</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- data-* : 객실명=roomtypes[current].name / 기준=rooms.baseOccupancy / 최대=rooms.maxOccupancy / 유형=rooms 구조 / 평형=rooms.size -->
+                        <tr>
+                          <td scope="row" data-room-name></td>
+                          <td data-room-base-occupancy></td>
+                          <td data-room-max-occupancy></td>
+                          <td data-room-structure></td>
+                          <td data-room-size></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <ul class="table_text">
+                      <li>
+                        <!-- data-* : data-room-amenities | rooms[matched].amenities.join(', ') -->
+                        <strong>집기품목</strong>
+                        :
+                        <span data-room-amenities></span>
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="price_table for_m">
+                    <table cellspacing="0" cellpadding="0" class="table_default">
+                      <tbody>
+                        <tr>
+                          <td>객실명</td>
+                          <td>기준</td>
+                          <td>최대</td>
+                          <td colspan="2">유형</td>
+                        </tr>
+                        <tr>
+                          <td data-room-name></td>
+                          <td data-room-base-occupancy></td>
+                          <td data-room-max-occupancy></td>
+                          <td colspan="2" data-room-structure></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <ul class="table_text">
+                      <li>
+                        <strong>집기품목</strong>
+                        :
+                        <span data-room-amenities></span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <!-- data-* : data-room-gallery | roomtypes[current] 컨셉 및 외경 이미지(roomtype_exterior, isSelected) (각 li의 p배경+img를 순서대로 주입, scaleAni 레이아웃/위치 유지) -->
+              <div class="list" data-room-gallery>
+                <div class="fl">
+                  <ul>
+                    <li class="fadeUp" data-scroll="">
+                      <p
+                        class="scaleAni"
+                        data-scroll=""
+                        style="background-position: center center; background-repeat: no-repeat"
+                      >
+                        <img alt="" />
+                      </p>
+                    </li>
+                    <li class="fadeUp" data-scroll="">
+                      <p
+                        class="scaleAni"
+                        data-scroll=""
+                        style="background-position: center center; background-repeat: no-repeat"
+                      >
+                        <img alt="" />
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+                <div class="fr">
+                  <ul>
+                    <li class="fadeUp" data-scroll="">
+                      <p
+                        class="scaleAni"
+                        data-scroll=""
+                        style="background-position: center center; background-repeat: no-repeat"
+                      >
+                        <img alt="" />
+                      </p>
+                    </li>
+                    <li class="fadeUp" data-scroll="">
+                      <p
+                        class="scaleAni"
+                        data-scroll=""
+                        style="background-position: center center; background-repeat: no-repeat"
+                      >
+                        <img alt="" />
+                      </p>
+                    </li>
+                    <li class="fadeUp" data-scroll="">
+                      <p
+                        class="scaleAni"
+                        data-scroll=""
+                        style="background-position: center center; background-repeat: no-repeat"
+                      >
+                        <img alt="" />
+                      </p>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div
+              class="main_room"
+              style="background: color-mix(in srgb, var(--color-primary) 55%, transparent)"
+            >
+              <div class="cont fadeUp" data-scroll="">
+                <h3>ROOM PREVIEW</h3>
+                <div class="preivew fadeUp" data-scroll="">
+                  <div class="swiper-container">
+                    <!-- data-* : data-room-list-slides | customFields.roomtypes[] (+ rooms[] id매칭 구조). 동적 생성, room.html?room_id={id} -->
+                    <div class="swiper-wrapper" data-room-list-slides>
+                      <!-- MAPPER: roomtypes[] 기준 .swiper-slide.item > a(room.html?room_id={id}, .custom_mousemove) > .img + .txt 동적 생성 -->
+                    </div>
+                    <div class="swiper-pagination"></div>
+                  </div>
+                  <a
+                    href="#n"
+                    class="room-prev"
+                    style="background-image: url(images/special_prev.webp)"
+                  ></a>
+                  <a
+                    href="#n"
+                    class="room-next"
+                    style="background-image: url(images/special_next.webp)"
+                  ></a>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+        <div id="footer-wrap"></div>
+      </div>
+    </div>
+
+    <!-- infra: 데이터 매핑 & 동적 헤더/푸터 -->
+    <script src="js/image-helpers.js"></script>
+    <script src="js/preview-handler.js"></script>
+    <script src="js/data-mapper/core/base-mapper.js"></script>
+    <script src="js/data-mapper/pages/header-footer-mapper.js"></script>
+    <script src="js/data-mapper/pages/room-mapper.js"></script>
+    <script src="js/header-footer-loader.js"></script>
+    <!-- 페이지 인터랙션 (vanilla) -->
+    <script src="js/common.js"></script>
+    <script src="js/custom.js"></script>
+  </body>
+</html>
