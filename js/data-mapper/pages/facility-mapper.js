@@ -136,8 +136,16 @@
         cf && cf.sections && cf.sections[0] && cf.sections[0].about
           ? cf.sections[0].about.title
           : '';
-      var desc = cfDesc && cfDesc.trim() ? cfDesc : (f.description || f.usageGuide || '');
+      // description(소개문)과 usageGuide(이용안내)를 한 줄 띄워 **둘 다** 보여준다.
+      // 예전에는 폴백이라 description 이 있으면 usageGuide 가 통째로 묻혔다.
+      // 둘 다 비면 슬롯을 숨긴다. (t-template-H · I · J 와 같은 방식)
+      var body = (f.description || '').trim();
+      var guide = (f.usageGuide || '').trim();
+      var joined = body + (body && guide ? '\n\n' : '') + guide;
+      var desc = cfDesc && cfDesc.trim() ? cfDesc : joined;
       descEl.innerHTML = desc ? nl2br(desc) : '';
+      // 둘 다 비면 슬롯을 숨긴다 — 빈 줄만 남기 때문이다.
+      descEl.style.display = desc ? '' : 'none';
     }
 
     var imgEl = document.querySelector('[data-facility-image]');

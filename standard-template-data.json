@@ -1,7 +1,7 @@
 {
   "metadata": {
-    "version": "1.0.0",
-    "generatedAt": "2026-09-01T07:16:48.940098087Z",
+    "version": "1.1.0",
+    "generatedAt": "2026-10-09T07:36:34.404115374Z",
     "templateType": "trip_d",
     "propertyId": "800d1e53-2df8-47c9-96c9-e8021eb2cb2e",
     "homepageId": "b9e846bc-873b-41d2-b008-f706076ded03"
@@ -22,13 +22,16 @@
     "checkin": "15:00",
     "checkout": "11:00",
     "checkInOutInfo": "[입퇴실안내]\n- 입실: 15시 00분\n- 퇴실: 11시 00분\n- 입실 마감시간: 22시 00분\n※ 22시 이후 입실 시 사전 문의 필요\n※ 퇴실 시 다음 손님을 위한 정리 정돈과 설거지, 쓰레기 분리수거는 현대 문화인의 기본 에티켓입니다.",
-    "usageGuide": "[입퇴실안내]\n- 입실: 15시 00분\n- 퇴실: 11시 00분\n- 입실 마감시간: 22시 00분\n※ 22시 이후 입실 시 사전 문의 필요\n※ 퇴실 시 다음 손님을 위한 정리 정돈과 설거지, 쓰레기 분리수거는 현대 문화인의 기본 에티켓입니다.\n\n[인원추가요금]\n※ 객실 금액은 기준 인원에 대한 금액으로 인원 초과 시 추가 요금이 발생합니다.\n※ 현장에서 발생되는 모든 추가 요금은 1박당 부과되오니 자세한 사항은 숙소 측에 문의 부탁드립니다.\n\n[개별바베큐]\n- 바베큐 형태: 숯불\n- 이용 객실: 전 객실\n- 이용 요금: 숯불 2~4인 기준 20,000원 / 그 외 추가 인원 펜션 문의 (1박기준/현장결제)\n- 이용 시간: 입실 후 ~ 22:00\n- 우천 시 이용 가능\n- 동계 시 이용 가능\n※ 신청 시간: 입실 후 문의\n\n[개별수영장]\n- 이용 객실: 전 객실\n- 이용 시간: 입실 후 ~ 22:00\n- 이용 복장: 제한 없음\n- 이용 요금: 미온수 1회 50,000원 (하루 전 신청 필수) / 냉수: 무료 (1박기준/현장결제)\n※ 운영기간: 특A: 4월 ~ 10월까지 운영 / 특B: 사계절 운영\n※ 극동계 한파 등의 기온에는 미온수를 채우더라도 사용이 불가할 수 있으니 반드시 미리 확인 바랍니다.\n\n[운동시설]\n- 큰 주차장이 마련되어 있어 족구장으로 이용 가능 (네트 및 족구공 개별 지참 필요)\n\n[편의 및 주변 시설]\n- 와이파이 보유\n- 화재감지기 보유\n- 일산화탄소 감지기 보유\n- 넷플릭스 이용 가능\n※ 개인계정 필요\n\n[주차장]\n- 주차장 보유\n\n[픽업]\n- 입/퇴실 픽업 가능\n- 픽업 가능 정원: 11명\n- 장소: 포항시내 이마트, 홈플러스, 시외터미널, 고속터미널, 해병대, 포항역 등\n※ 퇴실 시: 동해면 버스 정류장\n- 운영 시간\n※ 입실 시: 15:00 ~ 17:00\n※ 퇴실 시: 11:00\n※ 주말이나 성수기는 힘들 수 있어 사전 문의 필수입니다.\n\n[교통편]\n[승용차 이용시]\n※ 네비게이션에 아래 주소 중 하나를 검색해주세요.\n지번 주소 : 경북 포항시 남구 동해면 임곡리 188-2\n도로명 주소 : 경북 포항시 남구 동해면 호미로3048번길 9-22\n\n[대중교통 이용시]\n포항고속버스터미널> 209번 버스 탑승> 약전리 하차> 도보로 24분 이동> 도착",
+    "usageGuide": "[입퇴실안내]\n- 입실: 15시 00분\n- 퇴실: 11시 00분\n- 입실 마감시간: 22시 00분\n※ 22시 이후 입실 시 사전 문의 필요\n※ 퇴실 시 다음 손님을 위한 정리 정돈과 설거지, 쓰레기 분리수거는 현대 문화인의 기본 에티켓입니다.\n\n[인원추가정보]\n[연령기준]\n- 성인: 8세 이상\n- 아동: 24개월 이상~8세 미만\n- 유아: 24개월 미만\n\n[추가요금]\n- 결제방법: 후결제(현장결제)\n※ 객실 금액은 기준 인원에 대한 금액으로 인원 초과 시 추가 요금이 발생합니다.\n※ 현장에서 발생되는 모든 추가 요금은 1박당 부과되오니 자세한 사항은 숙소 측에 문의 부탁드립니다.\n\n[개별바베큐]\n- 바베큐 형태: 숯불\n- 이용 객실: 전 객실\n- 이용 요금: 숯불 2~4인 기준 20,000원 / 그 외 추가 인원 펜션 문의 (1박기준/현장결제)\n- 이용 시간: 입실 후 ~ 22:00\n- 우천 시 이용 가능\n- 동계 시 이용 가능\n※ 신청 시간: 입실 후 문의\n\n[개별수영장]\n- 이용 객실: 전 객실\n- 이용 시간: 입실 후 ~ 22:00\n- 이용 복장: 제한 없음\n- 이용 요금: 미온수 1회 50,000원 (하루 전 신청 필수) / 냉수: 무료 (1박기준/현장결제)\n※ 운영기간: 특A: 4월 ~ 10월까지 운영 / 특B: 사계절 운영\n※ 극동계 한파 등의 기온에는 미온수를 채우더라도 사용이 불가할 수 있으니 반드시 미리 확인 바랍니다.\n\n[운동시설]\n- 큰 주차장이 마련되어 있어 족구장으로 이용 가능 (네트 및 족구공 개별 지참 필요)\n\n[편의 및 주변 시설]\n- 와이파이 보유\n- 화재감지기 보유\n- 일산화탄소 감지기 보유\n- 넷플릭스 이용 가능\n※ 개인계정 필요\n\n[주차장]\n- 주차장 보유\n\n[픽업]\n- 입/퇴실 픽업 가능\n- 픽업 가능 정원: 11명\n- 장소: 포항시내 이마트, 홈플러스, 시외터미널, 고속터미널, 해병대, 포항역 등\n※ 퇴실 시: 동해면 버스 정류장\n- 운영 시간\n※ 입실 시: 15:00 ~ 17:00\n※ 퇴실 시: 11:00\n※ 주말이나 성수기는 힘들 수 있어 사전 문의 필수입니다.\n\n[교통편]\n[승용차 이용시]\n※ 네비게이션에 아래 주소 중 하나를 검색해주세요.\n지번 주소 : 경북 포항시 남구 동해면 임곡리 188-2\n도로명 주소 : 경북 포항시 남구 동해면 호미로3048번길 9-22\n\n[대중교통 이용시]\n포항고속버스터미널> 209번 버스 탑승> 약전리 하차> 도보로 24분 이동> 도착",
     "reservationGuide": "",
     "province": "도/시",
     "city": "시/군/구",
     "domain": "yeonolangpark.kr",
     "realtimeBookingId": "https://map.naver.com/p/entry/place/1828475019",
     "ybsId": "57963",
+    "tripPropertyId": "8218",
+    "partnerType": "distributor_b",
+    "tripProviderName": "트립일레븐",
     "amenities": [
       "흡연구역(지정장소)",
       "주차장"
@@ -266,9 +269,9 @@
       {
         "thumbnail": [
           {
-            "id": "8da4306d-8aaa-417c-ab2f-bc27fd6b4d17",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg",
-            "sortOrder": 0,
+            "id": "3ca4c109-a0a9-4ed5-8a5a-4a630e5243ac",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/dB3zTKexN1pl.jpg",
+            "sortOrder": 1,
             "description": "",
             "isSelected": true,
             "blockId": null
@@ -276,9 +279,9 @@
         ],
         "exterior": [
           {
-            "id": "3ca4c109-a0a9-4ed5-8a5a-4a630e5243ac",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/dB3zTKexN1pl.jpg",
-            "sortOrder": 0,
+            "id": "449f5bb2-f581-4af7-b69c-46f3b555214e",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/eKa9hQXVw5Tt.jpg",
+            "sortOrder": 2,
             "description": "",
             "isSelected": true,
             "blockId": null
@@ -286,22 +289,6 @@
           {
             "id": "1a2aed07-6c5e-4857-b960-96b1431d2010",
             "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/7GsABXq9Ig1p.jpg",
-            "sortOrder": 1,
-            "description": "",
-            "isSelected": true,
-            "blockId": null
-          },
-          {
-            "id": "d868b24f-1f41-4673-a76f-87007599b516",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/JoeIR1YC5hfZ.jpg",
-            "sortOrder": 2,
-            "description": "",
-            "isSelected": true,
-            "blockId": null
-          },
-          {
-            "id": "b1935ab3-7d18-4ce8-bb14-50cb7dd5cfec",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/UvDHti05cEhu.jpg",
             "sortOrder": 3,
             "description": "",
             "isSelected": true,
@@ -316,16 +303,16 @@
             "blockId": null
           },
           {
-            "id": "a54f4a30-ae8c-42b3-8eaa-4d523a6b9245",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/NJxy2vGfcdIR.jpg",
+            "id": "b1935ab3-7d18-4ce8-bb14-50cb7dd5cfec",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/UvDHti05cEhu.jpg",
             "sortOrder": 5,
             "description": "",
             "isSelected": true,
             "blockId": null
           },
           {
-            "id": "449f5bb2-f581-4af7-b69c-46f3b555214e",
-            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/eKa9hQXVw5Tt.jpg",
+            "id": "d868b24f-1f41-4673-a76f-87007599b516",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/JoeIR1YC5hfZ.jpg",
             "sortOrder": 6,
             "description": "",
             "isSelected": true,
@@ -343,6 +330,22 @@
             "id": "65da58cf-aa7e-4b35-8fcc-96742eeb14ab",
             "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/rG5hcVZJTHoN.jpg",
             "sortOrder": 8,
+            "description": "",
+            "isSelected": true,
+            "blockId": null
+          },
+          {
+            "id": "8da4306d-8aaa-417c-ab2f-bc27fd6b4d17",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/cTw2dRzOBqPp.jpg",
+            "sortOrder": 9,
+            "description": "",
+            "isSelected": true,
+            "blockId": null
+          },
+          {
+            "id": "a54f4a30-ae8c-42b3-8eaa-4d523a6b9245",
+            "url": "https://bookingplay-media.s3.amazonaws.com/item_images/2026/08/06/NJxy2vGfcdIR.jpg",
+            "sortOrder": 10,
             "description": "",
             "isSelected": true,
             "blockId": null
@@ -1336,6 +1339,35 @@
                 "description": ""
               },
               "enabled": true
+            }
+          ]
+        },
+        "landing": {
+          "sections": [
+            {
+              "enabled": false,
+              "hero": {
+                "images": [ ]
+              },
+              "about": [
+                {
+                  "blockId": "sample-card-1",
+                  "propertyId": "sample-property-1",
+                  "propertyName": "현재 숙소",
+                  "title": "",
+                  "images": [ ],
+                  "order": 1
+                },
+                {
+                  "blockId": "sample-card-2",
+                  "propertyId": "sample-property-2",
+                  "propertyName": "연결 숙소 2",
+                  "domain": "http://localhost:8000/t-template-D",
+                  "title": "",
+                  "images": [ ],
+                  "order": 2
+                }
+              ]
             }
           ]
         }

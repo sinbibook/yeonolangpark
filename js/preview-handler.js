@@ -107,7 +107,7 @@ if (typeof window.PreviewHandler === 'undefined') {
           this.handlePageNavigation(event.data);
           break;
         case 'section_update':
-          await this.handleSectionUpdate(data);
+          await this.handleSectionUpdate(event.data);
           break;
         case 'THEME_UPDATE':
           this.handleThemeUpdate(data);
@@ -175,7 +175,12 @@ if (typeof window.PreviewHandler === 'undefined') {
       this.notifyRenderComplete('UPDATE_COMPLETE');
     }
 
-    async handleSectionUpdate(data) {
+    // ⚠️ event.data 는 SectionUpdateMessage 형태다: { type, page, section, data }.
+    //    data(예: about 배열)만 꺼내 currentData 루트에 그대로 deepMerge 하면
+    //    배열 인덱스("0","1")가 루트 키로 올라가 오염될 뿐, 실제로는
+    //    customFields.pages[page].sections[0][section] 을 갱신하지 못한다.
+    //    page/section 을 이용해 올바른 중첩 경로에 patch 를 만들어 병합한다.
+    async handleSectionUpdate(message) {
       this.adminDataReceived = true;
 
       if (this.fallbackTimeout) {
@@ -187,7 +192,52 @@ if (typeof window.PreviewHandler === 'undefined') {
         return;
       }
 
-      this.currentData = this.mergeData(this.currentData, data);
+      const page = message && message.page;
+      const section = message && message.section;
+
+      // socialLinks 는 페이지 섹션이 아니라 homepage.socialLinks 에 산다 (모든 페이지 공통).
+      // pages[page].sections[0] 에 넣으면 헤더가 읽지 못하고 pages 만 오염된다.
+      // 헤더 버튼만 다시 매핑하면 되므로 페이지 전체를 다시 그리지 않는다.
+      if (section === 'socialLinks') {
+        if (!this.currentData.homepage) this.currentData.homepage = {};
+        this.currentData.homepage.socialLinks = message.data || {};
+        // landing 게이트는 헤더가 없는 페이지라 대기·매핑할 대상이 없다
+        if (this.getCurrentPageType() !== 'landing' && window.HeaderFooterMapper) {
+          await this.waitForHeaderDOM();
+          const headerFooterMapper = new window.HeaderFooterMapper();
+          headerFooterMapper.data = this.currentData;
+          headerFooterMapper.isDataLoaded = true;
+          headerFooterMapper.mapSocialLinks();
+        }
+        this.notifyRenderComplete('SECTION_UPDATE_COMPLETE');
+        return;
+      }
+
+      if (!page || !section) {
+        return;
+      }
+
+      // section_update는 항상 admin 프리뷰(postMessage)에서만 오고, 그 데이터는
+      // 언제나 { homepage: { customFields: {...} }, property, rooms } 형태다
+      // (INITIAL_DATA/TEMPLATE_UPDATE가 this.currentData를 채우는 형태와 동일).
+      // customFields가 최상위에 오는 standalone 로딩 경로는 이 메시지를 타지 않으므로
+      // BaseDataMapper.getPages()처럼 두 경로를 다 볼 필요가 없다.
+      const homepage = this.currentData.homepage || {};
+      const pages = (homepage.customFields && homepage.customFields.pages) || {};
+      const currentSection = (pages[page] && pages[page].sections && pages[page].sections[0]) || {};
+
+      this.currentData = this.deepMerge(this.currentData, {
+        homepage: {
+          customFields: {
+            pages: {
+              [page]: {
+                sections: [Object.assign({}, currentSection, { [section]: message.data })]
+              }
+            }
+          }
+        }
+      });
+
       await this.renderTemplate(this.currentData);
       this.refreshPopupFromTemplate(this.currentData);
       this.notifyRenderComplete('SECTION_UPDATE_COMPLETE');
@@ -413,7 +463,8 @@ if (typeof window.PreviewHandler === 'undefined') {
         reservation: 'reservation.html',
         directions: 'directions.html',
         nearbyAttractions: 'nearby-attractions.html',
-        layoutMap: 'layout-map.html'
+        layoutMap: 'layout-map.html',
+        landing: 'landing.html'
       };
 
       const targetPage = pageMap[messageData.page];
@@ -499,6 +550,9 @@ if (typeof window.PreviewHandler === 'undefined') {
         case 'layoutMap':
           if (window.LayoutMapMapper) mapper = new LayoutMapMapper();
           break;
+        case 'landing':
+          if (window.LandingMapper) mapper = new LandingMapper();
+          break;
         default:
           return;
       }
@@ -508,6 +562,11 @@ if (typeof window.PreviewHandler === 'undefined') {
         mapper.isDataLoaded = true;
         await mapper.mapPage();
         if (window.__tplReveal) window.__tplReveal(); // 매핑 완료 → 화면 노출(페이드인)
+      }
+
+      // landing 게이트는 헤더/푸터가 없는 별도 페이지라 대기·매핑할 대상이 없다.
+      if (currentPage === 'landing') {
+        return;
       }
 
       await this.waitForHeaderDOM();
@@ -558,6 +617,7 @@ if (typeof window.PreviewHandler === 'undefined') {
       if (path.includes('directions.html')) return 'directions';
       if (path.includes('nearby-attractions.html')) return 'nearbyAttractions';
       if (path.includes('layout-map.html')) return 'layoutMap';
+      if (path.includes('landing.html')) return 'landing';
 
       return 'index';
     }
@@ -615,7 +675,8 @@ if (typeof window.PreviewHandler === 'undefined') {
         reservation: 'ReservationMapper',
         directions: 'DirectionsMapper',
         nearbyAttractions: 'NearbyAttractionsMapper',
-        layoutMap: 'LayoutMapMapper'
+        layoutMap: 'LayoutMapMapper',
+        landing: 'LandingMapper'
       };
 
       const mapperClass = mapperConfig[currentPage];

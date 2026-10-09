@@ -154,18 +154,53 @@
     var lnb = document.getElementById('hd_lnb');
     var bg = document.querySelector('.hd_lnb_bg');
     if (!lnb) return;
+    var boxes = function () {
+      return lnb.querySelectorAll('.depth_box');
+    };
+    // .hd_lnb_bg 높이를 서브메뉴 실제 높이에 맞춘다.
+    // 객실/시설 메뉴는 매퍼가 동적 생성하므로 hover 시점에 매번 계산한다.
     var on = function () {
-      document.querySelectorAll('.depth_box').forEach(function (d) {
+      var header = document.getElementById('header');
+      // 서브메뉴가 뷰포트 아래로 넘치지 않도록 상한을 잡는다 (헤더 높이 + 하단 여유)
+      var headerH = header ? header.offsetHeight : 0;
+      var cap = Math.max(160, window.innerHeight - headerH - 110);
+      var contentH = 0;
+      var offset = 0;
+      boxes().forEach(function (d) {
+        // 측정 전에 상한을 풀어 실제 내용 높이를 잰다
+        d.style.maxHeight = '';
+        var natural = d.scrollHeight;
+        if (contentH < natural) contentH = natural;
+        // 객실/시설이 많아 상한을 넘으면 그 박스만 스크롤시킨다
+        if (natural > cap) {
+          d.classList.add('is-scroll');
+          d.style.maxHeight = cap + 'px';
+        } else {
+          d.classList.remove('is-scroll');
+        }
         d.classList.add('on');
       });
-      if (bg) bg.classList.add('on');
+      if (!bg) return;
+      // 배경 상단 ~ 서브메뉴 상단 거리 (헤더 레이아웃이 바뀌어도 맞도록 실제 위치로 잰다)
+      var first = boxes()[0];
+      if (first) offset = Math.max(0, first.getBoundingClientRect().top - bg.getBoundingClientRect().top);
+      bg.classList.add('on');
+      bg.style.height = offset + Math.min(contentH, cap) + 40 + 'px';
     };
     var off = function () {
-      document.querySelectorAll('.depth_box').forEach(function (d) {
+      boxes().forEach(function (d) {
         d.classList.remove('on');
+        // max-height 인라인 값을 지워 CSS 의 닫힘 트랜지션(max-height:0)이 살아나게 한다
+        d.style.maxHeight = '';
       });
-      if (bg) bg.classList.remove('on');
+      if (bg) {
+        bg.classList.remove('on');
+        bg.style.height = '';
+      }
     };
+    window.addEventListener('resize', function () {
+      if (bg && bg.classList.contains('on')) on();
+    });
     lnb.addEventListener('mouseover', on);
     lnb.addEventListener('mouseleave', off);
     if (bg) {

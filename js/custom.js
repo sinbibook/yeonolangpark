@@ -39,13 +39,14 @@
   // 실제 슬라이드 개수에 맞춰 옵션 보정 (템플릿: 시설마다 객실/이미지 개수가 다름)
   //  - slidesPerView(breakpoints 포함)를 슬라이드 수 이하로 클램프 → 빈 칸 없이 꽉 차게 노출
   //  - loop는 슬라이드가 충분할 때만 (데이터 주입 전 0개·슬라이드 부족 시 Swiper 경고/오작동 방지)
-  //  - hideControlsWhenSingle 옵션 + 슬라이드 1개 → 페이지네이션/화살표 비활성 + 숨김
+  //  - hideControlsWhenFit 옵션 → 현재 브레이크포인트에서 슬라이드가 다 보이면 페이지네이션/화살표 숨김
+  //    (예: 객실 2개 → PC(3그리드)는 넘길 게 없어 숨김 / 모바일(1그리드)은 노출)
   function withSlideCount(el, options) {
     if (!options) return options;
     var count = el.querySelectorAll('.swiper-slide').length;
     var maxPerView = typeof options.slidesPerView === 'number' ? options.slidesPerView : 1;
-    var single = options.hideControlsWhenSingle;
-    delete options.hideControlsWhenSingle;
+    var watchFit = options.hideControlsWhenFit;
+    delete options.hideControlsWhenFit;
 
     function clamp(o) {
       if (typeof o.slidesPerView === 'number' && count > 0) {
@@ -63,17 +64,32 @@
 
     if (options.loop && count <= maxPerView) options.loop = false;
 
-    if (single) {
-      var hide = count <= 1;
-      toggleControl(el, options.pagination && options.pagination.el, !hide);
-      toggleControl(el, options.navigation && options.navigation.nextEl, !hide);
-      toggleControl(el, options.navigation && options.navigation.prevEl, !hide);
-      if (hide) {
-        delete options.pagination;
-        delete options.navigation;
-      }
-    }
+    if (watchFit) attachFitWatcher(el, options, count);
     return options;
+  }
+
+  // 브레이크포인트마다 "슬라이드가 전부 보이는지" 확인해 컨트롤 표시/숨김을 동기화
+  function attachFitWatcher(el, options, count) {
+    var pagEl = options.pagination && options.pagination.el;
+    var nextEl = options.navigation && options.navigation.nextEl;
+    var prevEl = options.navigation && options.navigation.prevEl;
+
+    function sync(swiper) {
+      var per = swiper.params.slidesPerView;
+      var show = count > (typeof per === 'number' ? per : 1);
+      toggleControl(el, pagEl, show);
+      toggleControl(el, nextEl, show);
+      toggleControl(el, prevEl, show);
+    }
+
+    var on = (options.on = options.on || {});
+    ['init', 'breakpoint', 'resize'].forEach(function (name) {
+      var prev = on[name];
+      on[name] = function () {
+        if (prev) prev.apply(this, arguments);
+        sync(this);
+      };
+    });
   }
 
   // ── Swiper 슬라이더 (동적 슬라이드 주입 후 재호출 가능: destroy 후 재생성) ──
@@ -172,7 +188,7 @@
 
     // 객실 미리보기 (객실 수에 따라 1개=100% / 2개=2그리드 / 3개 이상=3그리드로 자동 보정)
     makeSwiper('.preivew .swiper-container', {
-      hideControlsWhenSingle: true,
+      hideControlsWhenFit: true,
       slidesPerView: 1,
       spaceBetween: 20,
       speed: 500,
