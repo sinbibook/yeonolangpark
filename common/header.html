@@ -60,6 +60,23 @@
     <div class="btn_hd_res">
       <a href="#!" target="_blank" data-ybs-button>YBS</a>
     </div>
+    <!--실시간예약_MO (특가 배지 + 예약 아이콘, 모바일 헤더 ≡ 왼쪽)-->
+    <!-- data-* 속성 : data-booking-link (property.realtimeBookingId) -->
+    <a href="#!" class="btn_reserve" target="_blank" data-booking-link>
+      <img
+        src="images/price.png"
+        alt="특가"
+        style="position: absolute; top: -3px; left: -10px; width: 35px; height: auto; z-index: 5"
+      />
+      <span
+        class="under"
+        style="background: url(images/mbt_reserve01.png) no-repeat center center; background-size: 65% auto"
+      ></span>
+      <span
+        class="over"
+        style="background: url(images/mbt_reserveo01.png) no-repeat center center; background-size: 65% auto"
+      ></span>
+    </a>
     <!--YBS_MO-->
     <!-- data-* 속성 : data-ybs-button -->
     <a href="#!" class="btn_reserve ybs" target="_blank" data-ybs-button>
@@ -73,6 +90,33 @@
         style="background: url(images/mbt_ybson.png) no-repeat center center; background-size: 75% auto; position: relative; top: 0; right: 15px"
       ></span>
     </a>
+    <!--네이버·인스타그램 (PC: 스크롤 헤더에서만 YBS 오른쪽 / 모바일: YBS 아이콘 왼쪽)-->
+    <!-- data-* 속성 : data-homepage-socialLinks-blog (네이버 ← homepage.socialLinks.blog)
+         data-homepage-socialLinks-instagram (인스타그램 ← homepage.socialLinks.instagram)
+         값 없으면 버튼 숨김, 둘 다 없으면 래퍼(data-social-wrap)째 숨김. 매핑 전에는 숨김.
+         YBS_MO 바로 뒤에 둔다 — 모바일에서 YBS 가 없을 때 형제 선택자로 빈 자리로 당긴다. -->
+    <div class="hd_sns_btn" data-social-wrap style="display: none">
+      <a
+        href="#!"
+        class="btn_naver"
+        target="_blank"
+        rel="noopener"
+        aria-label="네이버"
+        style="display: none"
+        data-homepage-socialLinks-blog
+        ><img src="images/n_logo.png" alt="네이버"
+      /></a>
+      <a
+        href="#!"
+        class="btn_insta"
+        target="_blank"
+        rel="noopener"
+        aria-label="인스타그램"
+        style="display: none"
+        data-homepage-socialLinks-instagram
+        ><img src="images/insta_logo.png" alt="인스타그램"
+      /></a>
+    </div>
     <a href="#n" class="btn_menu">
       <span
         class="under"
@@ -192,11 +236,24 @@
 <!-- e: allmenu-wrap -->
 <!-- 위로가기 버튼 (전 페이지 공통, scroll-wrap 밖이라 헤더에 둠 → position:fixed 정상) -->
 <a href="#doc" class="top-btn" style="display: none"><span class="blind">위로</span></a>
-<!-- 모바일 우측 하단 예약 버튼 (전 페이지 공통, data-booking-link / 시계 아이콘+예약, secondary 원형) -->
-<a href="#!" target="_blank" class="m-reserve-btn" data-booking-link>
-  <span class="ico"></span>
-  <span class="txt">예약</span>
-</a>
+<!-- 우측 하단 플로팅 버튼 2개. 상담하기(아래) + 예약하기(위) 순으로 쌓인다.
+     예약하기는 `for_m` 이라 모바일에서만 뜨고, 상담하기는 총판A + tripPropertyId 가
+     있을 때 전 화면폭에서 뜬다 (header-footer-mapper.mapConsult). -->
+
+<!-- data-* 속성 : data-consult-button (property.tripPropertyId + partnerType)
+     상담 URL 은 `https://www.bookingplay.co.kr/api/cti_eicn/kakao_happy_talk?tid={tripPropertyId}` -->
+<div id="talk_custom_button" data-consult-wrap>
+  <a title="상담하기" href="#!" target="_blank" data-consult-button>
+    <img src="images/consult.png" alt="상담하기" />
+  </a>
+</div>
+
+<!-- data-* 속성 : data-booking-link (property.realtimeBookingId) -->
+<div class="ft_btn_reserve for_m on">
+  <a title="예약하기" href="#!" target="_blank" data-booking-link>
+    <img src="images/talk.png" alt="예약하기" />
+  </a>
+</div>
 <!-- 커스텀 커서 (전 페이지 공통) -->
 <div id="custom_cursor">
   <div class="custom_cursor_inner"><div class="custom_cursor_circle"></div></div>

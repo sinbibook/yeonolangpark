@@ -198,11 +198,24 @@ header
 .header .logo2 a.is-logo-tinted {
   background-color: var(--color-secondary);
 }
+/* 네이버(socialLinks.blog)·인스타그램(socialLinks.instagram) — 원본 스킨 훅 그대로:
+   PC 최상단에선 숨김, 스크롤 헤더(.header.on)에서만 YBS 오른쪽에 노출(아래 '상단 on').
+   예약하기·YBS 버튼 높이(32px)에 맞춰 32px, 간격 10px. 숨긴 버튼(display:none)은 gap 에서 빠진다.
+   인스타 로고(122×126)는 높이만 고정해 비율 유지. */
 .header .hd_sns_btn {
   display: none;
-}
-.header .hd_sns_btn a + a {
+  gap: 10px;
   margin-left: 15px;
+  font-size: 0;
+  line-height: 0;
+}
+.header .hd_sns_btn a {
+  height: 32px;
+}
+.header .hd_sns_btn img {
+  display: block;
+  width: auto;
+  height: 100%;
 }
 .header .btn_hd_res {
   margin-left: 15px;
@@ -260,6 +273,29 @@ header
 .header .hd_lnb ul .depth1 .depth_box.on {
   max-height: 1000px;
   opacity: 1;
+}
+
+/* 객실/시설이 많아 서브메뉴가 뷰포트를 넘치면 스크롤한다.
+   max-height 는 common.js 의 bindLnbHover() 가 뷰포트 높이에 맞춰 계산해 인라인으로 넣는다.
+   .is-scroll 은 넘칠 때만 붙는다 (넘치지 않으면 스크롤바가 보이지 않도록). */
+.header .hd_lnb ul .depth1 .depth_box.is-scroll {
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  /* 스크롤바 자리만큼 항목이 밀려 보이지 않게 여백을 준다 */
+  padding-right: 6px;
+}
+.header .hd_lnb ul .depth1 .depth_box.is-scroll::-webkit-scrollbar {
+  width: 4px;
+}
+.header .hd_lnb ul .depth1 .depth_box.is-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.header .hd_lnb ul .depth1 .depth_box.is-scroll::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 25%);
+  border-radius: 2px;
+}
+.header .hd_lnb ul .depth1 .depth_box.is-scroll:hover::-webkit-scrollbar-thumb {
+  background: rgb(0 0 0 / 40%);
 }
 .header .hd_lnb ul .depth1 .depth_box li {
   font-size: 14px;
@@ -447,6 +483,10 @@ header
 .header.on .logo {
   display: none;
 }
+/* 네이버·인스타: 스크롤 헤더에서 한 줄(gap 10px) — 메뉴 | 예약하기 | YBS | N 인스타 | ≡ */
+.header.on .hd_sns_btn {
+  display: inline-flex;
+}
 @media only screen and (max-width: 1480px) {
 }
 @media only screen and (max-width: 1280px) {
@@ -481,6 +521,15 @@ header
   }
   .header.on .hd_lnb ul .depth1 .depth1_a {
     padding: 0 20px;
+  }
+  /* 네이버·인스타가 보이면(data-social=on) 스크롤 헤더 메뉴가 왼쪽으로 밀려 1024 이하에서
+     로고 영역과 겹친다 → 메뉴 여백을 줄인다(0 20px / 0 20px → 0 8px / 0 14px).
+     .depth1 / .depth1_a 에는 transition 이 없어 로드 직후 두 줄로 보이는 일이 없다. */
+  [data-social='on'] .header.on .hd_lnb ul .depth1 {
+    padding: 0 8px;
+  }
+  [data-social='on'] .header.on .hd_lnb ul .depth1 .depth1_a {
+    padding: 0 14px;
   }
 
   .header .btn_hd_res a {
@@ -540,6 +589,25 @@ header
   .header .btn_reserve,
   .header .btn_link {
     display: block;
+  }
+
+  /* 네이버·인스타: 최상단·스크롤 모두 YBS 아이콘 왼쪽 [N][인스타] YBS 예약 ≡ (26px, 간격 8px) */
+  .header .hd_sns_btn,
+  .header.on .hd_sns_btn {
+    display: flex;
+    gap: 8px;
+    position: absolute;
+    right: 157px;
+    top: 50%;
+    transform: translateY(-50%);
+    margin: 0;
+  }
+  .header .hd_sns_btn a {
+    height: 26px;
+  }
+  /* YBS 가 없으면(매퍼가 style="display: none") 비는 자리로 당긴다 → [N][인스타] 예약 ≡ */
+  .header a.ybs[style*='display: none'] + .hd_sns_btn {
+    right: 104px;
   }
 }
 @media only screen and (max-width: 680px) {
@@ -5875,53 +5943,68 @@ v-scrollbar
   line-height: 2;
   font-family: var(--font-ko-sub);
 }
-
-/* =========================================================
-.m-reserve-btn (모바일 우측 하단 예약 버튼 - secondary 원형 + 시계 아이콘)
-========================================================= */
-.m-reserve-btn {
-  display: none;
-}
 @media only screen and (max-width: 768px) {
-  .m-reserve-btn {
-    position: fixed;
-    right: 16px;
-    bottom: 20px;
-    z-index: 6000;
-    width: 58px;
-    height: 58px;
-    border-radius: 50%;
-    background: var(--color-secondary);
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.25);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-decoration: none;
-    box-sizing: border-box;
-  }
-  .m-reserve-btn .ico {
-    width: 20px;
-    height: 20px;
-    background-color: #fff;
-    -webkit-mask-image: url('../images/real_clock.png');
-    mask-image: url('../images/real_clock.png');
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: contain;
-    mask-size: contain;
-  }
-  .m-reserve-btn .txt {
-    margin-top: 5px;
-    font-size: 11px;
-    line-height: 1;
-    color: #fff;
-    font-weight: 500;
-  }
   /* 위로가기 버튼은 예약 버튼 위로 띄워 겹침 방지 */
   .top-btn.over {
     bottom: 88px;
+  }
+}
+
+/* 예약하기 — 모바일 전용(`for_m`). 위치·크기는 전 템플릿 공통 규격이다. */
+.ft_btn_reserve.on {
+  position: fixed;
+  bottom: 80px;
+  right: 7px;
+  z-index: 999;
+}
+
+.ft_btn_reserve.on > a > img {
+  width: 75px;
+  height: 75px;
+}
+
+/* ============================================================
+   우측 하단 플로팅 버튼 — 상담하기 + 예약하기
+   ============================================================ */
+
+/* 예약하기(bottom:80px) 아래에 깔린다.
+   ⚠️ 노출 여부는 매퍼가 정한다 — 총판A(`partnerType === 'distributor_a'`)이고
+      `tripPropertyId` 가 있을 때만 뜬다. PC·모바일 모두 해당한다. */
+#talk_custom_button {
+  position: fixed;
+  right: 7px;
+  bottom: 6px;
+  cursor: pointer;
+  z-index: 999;
+}
+
+#talk_custom_button img {
+  width: 75px;
+  height: 75px;
+  display: block;
+}
+
+/* ⚠️ 상담하기가 빠지면(총판B / 판매대행 / tripPropertyId 없음) 예약하기 아래가
+   빈 채로 떠 있게 된다. 매퍼가 루트에 찍는 `data-consult` 로 바닥에 붙인다.
+   예약하기 자체는 파트너 타입과 무관하게 `.for_m` 미디어쿼리로만 갈린다. */
+[data-consult='off'] .ft_btn_reserve.on {
+  bottom: 6px;
+}
+
+/* room_floorplan — 객실 평면도 (이미지 한 장만, 제목 없음)
+   ⚠️ 기본값이 `display:none` 이다 — 매퍼가 이미지를 찾았을 때만 풀어준다. */
+.room_floorplan {
+  padding: 90px 20px;
+  text-align: center;
+}
+.room_floorplan img {
+  display: inline-block;
+  max-width: 1440px;
+  width: 100%;
+  height: auto;
+}
+@media (max-width: 1024px) {
+  .room_floorplan {
+    padding: 50px 20px;
   }
 }

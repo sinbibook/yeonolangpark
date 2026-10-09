@@ -11,6 +11,7 @@ const browserGlobals = {
   clearTimeout: 'readonly',
   setInterval: 'readonly',
   clearInterval: 'readonly',
+  URL: 'readonly',
   URLSearchParams: 'readonly',
   location: 'readonly',
   getComputedStyle: 'readonly',
@@ -34,6 +35,7 @@ const projectGlobals = {
   RoomListMapper: 'readonly',
   NearbyAttractionsMapper: 'readonly',
   LayoutMapMapper: 'readonly',
+  LandingMapper: 'readonly',
 };
 
 export default [

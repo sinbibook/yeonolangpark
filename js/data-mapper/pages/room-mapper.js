@@ -41,6 +41,7 @@
     this.mapIntro();
     this.mapTable();
     this.mapGallery();
+    this.mapFloorplan();
     this.mapRoomSlides();
     this.refreshSwipers();
   };
@@ -138,25 +139,38 @@
     if (!nav) return;
     var current = this.getCurrentRoomtype();
     var currentId = current && current.id;
-    nav.querySelectorAll('[data-generated="nav"]').forEach(function (li) {
-      li.remove();
+    nav.querySelectorAll('[data-generated="nav"]').forEach(function (li) { li.remove(); });
+    var self = this;
+    var roomItems = this.getRoomMenuItems(this.getRoomtypes(), function (rt) { return (rt && rt.name) || ''; });
+    // 그룹 안이면 그 그룹의 객실만 펼친다.
+    // 헤더/미리보기 메뉴는 그룹명 하나로 접히고 클릭 시 그룹의 첫 객실로 들어가는데,
+    // 이 탭까지 접혀 있으면 2번째 객실부터는 UI 로 도달할 방법이 없다.
+    // 멤버가 1실인 그룹은 펼치지 않는다(항목이 하나뿐이라 의미가 없다).
+    var activeGroup = null;
+    roomItems.forEach(function (it) {
+      var members = (it && it.roomtypes) || [];
+      if (members.length > 1 && self.isRoomMenuItemActive(it, currentId)) activeGroup = it;
     });
-    this.getRoomtypes().forEach(function (rt) {
-      if (!rt.name || !rt.name.trim()) return;
-      var isCurrent = String(rt.id) === String(currentId);
+    if (activeGroup) {
+      roomItems = activeGroup.roomtypes.map(function (rt) {
+        return { label: (rt && rt.name) || '', roomtype: rt, roomtypes: [rt] };
+      });
+    }
+    roomItems.forEach(function (item) {
+      var name = self.getRoomMenuLabel(item);
+      if (!String(name).trim()) return;
       var li = document.createElement('li');
       li.setAttribute('data-generated', 'nav');
-      if (isCurrent) li.className = 'active';
+      if (self.isRoomMenuItemActive(item, currentId)) li.className = 'active';
       var a = document.createElement('a');
-      a.href = 'room.html?room_id=' + rt.id;
-      if (isCurrent) a.className = 'on';
-      a.textContent = rt.name;
+      a.href = self.getRoomMenuLink(item);
+      if (self.isRoomMenuItemActive(item, currentId)) a.className = 'on';
+      a.textContent = name;
       li.appendChild(a);
       nav.appendChild(li);
     });
   };
 
-  // MAPPER: 이름/구조 + 대표이미지/썸네일 (info)
   RoomMapper.prototype.mapInfo = function () {
     var rt = this.getCurrentRoomtype();
     var room = this.getMatchedRoom(rt);
@@ -269,54 +283,80 @@
   RoomMapper.prototype.mapRoomSlides = function () {
     var wrapper = document.querySelector('[data-room-list-slides]');
     if (!wrapper) return;
-    var roomtypes = this.getRoomtypes().filter(function (rt) {
-      return rt && rt.name && rt.name.trim();
-    });
+    var self = this;
     var rooms = (this.data && this.data.rooms) || [];
+    var roomtypes = this.getRoomtypes().filter(function (rt) {
+      if (!(rt && rt.name && rt.name.trim())) return false;
+      var matched = rooms.filter(function (r) { return r.id === rt.id; })[0];
+      return !(matched && matched.status === 'inactive');
+    });
 
     wrapper.innerHTML = '';
     if (!roomtypes.length) return;
 
+    // Room Preview 카드는 groupName 과 무관하게 **항상 전체 객실**을 깐다.
+    // 그룹으로 접히는 곳은 헤더 ROOMS 메뉴와 객실 상세 탭뿐이고,
+    // 카드는 저마다 자기 객실 상세로 연결한다.
     roomtypes.forEach(function (rt) {
-      var thumbs = (rt.images || []).filter(function (im) {
-        return im.category === 'roomtype_thumbnail';
-      });
-      var sel = thumbs.filter(function (t) {
-        return t.isSelected;
-      });
-      var thumbUrl = (sel[0] && sel[0].url) || (thumbs[0] && thumbs[0].url) || '';
-
-      var matched = rooms.filter(function (r) {
-        return r.id === rt.id;
-      })[0];
+      var roomLabel = (rt && rt.name) || '';
+      if (!String(roomLabel).trim() || !rt) return;
+      var thumbs = (rt.images || []).filter(function (img) { return img.category === 'roomtype_thumbnail'; });
+      var selected = thumbs.filter(function (t) { return t.isSelected; });
+      var thumbUrl = (selected[0] && selected[0].url) || (thumbs[0] && thumbs[0].url) || '';
+      var matched = rooms.filter(function (r) { return r.id === rt.id; })[0];
       var structureText = buildRoomStructure(matched);
 
       var slide = document.createElement('div');
       slide.className = 'swiper-slide item';
       var a = document.createElement('a');
-      a.href = 'room.html?room_id=' + rt.id;
+      a.href = self.getRoomMenuLink(rt);
       a.className = 'custom_mousemove';
       a.setAttribute('data-hover', 'Click');
 
       var img = document.createElement('div');
       img.className = 'img';
-      if (thumbUrl) {
-        img.style.background = 'url(' + thumbUrl + ') no-repeat 50%';
-        img.style.backgroundSize = 'cover';
-      } else {
-        ImageHelpers.applyBackgroundPlaceholder(img);
-      }
+      if (thumbUrl) { img.style.background = 'url(' + thumbUrl + ') no-repeat 50%'; img.style.backgroundSize = 'cover'; }
+      else { ImageHelpers.applyBackgroundPlaceholder(img); }
 
       var txt = document.createElement('div');
       txt.className = 'txt';
       txt.innerHTML = '<p class="btxt"></p><p class="stxt"></p>';
-      txt.querySelector('.btxt').textContent = rt.name || '';
+      txt.querySelector('.btxt').textContent = roomLabel;
       txt.querySelector('.stxt').textContent = structureText;
 
       a.appendChild(img);
       a.appendChild(txt);
       slide.appendChild(a);
       wrapper.appendChild(slide);
+    });
+  };
+
+  /* MAPPER: roomtypes[current] 평면도 이미지 → [data-room-floorplan-image]
+     ⚠️ 제목·설명 자리가 없다. 도면 이미지 한 장이 전부다.
+     ⚠️ 이미지가 없으면 [data-room-floorplan-section] 을 통째로 숨긴다 —
+        원본에 없던 빈 구간을 남기지 않는다.
+        (layout-map 의 배치도는 반대로 없어도 placeholder 를 세운다 — 규칙이 정반대다.)
+     ⚠️ URL 이 있는데 로드가 죽어도 구간째 숨긴다 — 깨진 아이콘만 남는 것보다 낫다. */
+  RoomMapper.prototype.mapFloorplan = function () {
+    var sections = document.querySelectorAll('[data-room-floorplan-section]');
+    if (!sections.length) return;
+
+    var image = this.getRoomFloorplanImage(this.getCurrentRoomtype());
+    var url = (image && image.url) || '';
+
+    sections.forEach(function (el) {
+      el.style.display = url ? '' : 'none';
+    });
+    if (!url) return;
+
+    document.querySelectorAll('[data-room-floorplan-image]').forEach(function (img) {
+      img.alt = '객실 평면도';
+      img.onerror = function () {
+        sections.forEach(function (el) {
+          el.style.display = 'none';
+        });
+      };
+      img.src = url;
     });
   };
 

@@ -148,6 +148,37 @@
     return list.length ? list[0].url : '';
   };
 
+  // 객실 평면도 소스.
+  // 크롤러가 원본 객실 상세의 평면도 영역에서 이미지를 찾았을 때만 이 필드/카테고리를 채운다.
+  // ⚠️ 제목·설명 자리가 없다. 도면 이미지 한 장이 전부다.
+  BaseDataMapper.prototype.getRoomFloorplanImages = function (roomtype) {
+    if (!roomtype) return [];
+
+    var direct =
+      roomtype.floorplanImages ||
+      roomtype.floorplans ||
+      (roomtype.floorplan && roomtype.floorplan.images) ||
+      [];
+    if (direct && !Array.isArray(direct)) direct = [direct];
+
+    if (direct.length) {
+      var selectedDirect = this.getSelectedImages(direct);
+      return selectedDirect.length ? selectedDirect : direct;
+    }
+
+    var images = roomtype.images || [];
+    var filtered = images.filter(function (img) {
+      return /^(roomtype_)?floorplan$|^room_floorplan$|^floor_plan$/i.test(img.category || '');
+    });
+    var selected = this.getSelectedImages(filtered);
+    return selected.length ? selected : filtered.slice();
+  };
+
+  BaseDataMapper.prototype.getRoomFloorplanImage = function (roomtype) {
+    var images = this.getRoomFloorplanImages(roomtype);
+    return images.length ? images[0] : null;
+  };
+
   // 데이터 변환 (스네이크 케이스 → 카멜 케이스)
   BaseDataMapper.prototype.convertToCamelCase = function (obj) {
     if (Array.isArray(obj)) {
@@ -191,6 +222,50 @@
   };
 
   // ── SEO 메타태그 업데이트 ──────────────────────────────────────
+  BaseDataMapper.prototype.getRoomGroupName = function (roomtype) {
+    return String((roomtype && roomtype.groupName) || '').trim();
+  };
+
+  BaseDataMapper.prototype.hasRoomGroups = function (roomtypes) {
+    var self = this;
+    return (roomtypes || []).some(function (rt) { return !!self.getRoomGroupName(rt); });
+  };
+
+  BaseDataMapper.prototype.getRoomMenuItems = function (roomtypes, resolveName) {
+    var self = this;
+    var list = roomtypes || [];
+    if (!this.hasRoomGroups(list)) {
+      return list.map(function (rt) { return { label: resolveName ? resolveName(rt) : (rt && rt.name) || '', roomtype: rt, roomtypes: [rt] }; });
+    }
+    var seen = {};
+    var items = [];
+    list.forEach(function (rt) {
+      var groupName = self.getRoomGroupName(rt);
+      // 그룹 숙소에서는 미그룹 객실을 메뉴에 내지 않는다.
+      // 원본 헤더가 그룹만 노출하고, 미그룹 객실은 목록 / Room Preview 로만 도달한다.
+      // (Room Preview 는 roomtypes[] 전체를 그리므로 영향 없다)
+      if (!groupName) return;
+
+      var label = groupName || (resolveName ? resolveName(rt) : (rt && rt.name) || '');
+      if (!String(label).trim()) return;
+      var key = groupName ? 'group:' + groupName : 'room:' + rt.id;
+      if (!seen[key]) { seen[key] = { label: label, groupName: groupName, roomtype: rt, roomtypes: [rt] }; items.push(seen[key]); }
+      else { seen[key].roomtypes.push(rt); }
+    });
+    return items;
+  };
+
+  BaseDataMapper.prototype.getRoomMenuLabel = function (item) { return (item && item.label) || ''; };
+  BaseDataMapper.prototype.getRoomMenuRoomtype = function (item) { return (item && item.roomtype) || item; };
+  BaseDataMapper.prototype.getRoomMenuLink = function (item, paramName) {
+    var roomtype = this.getRoomMenuRoomtype(item);
+    return 'room.html?' + (paramName || 'room_id') + '=' + encodeURIComponent(roomtype && roomtype.id);
+  };
+  BaseDataMapper.prototype.isRoomMenuItemActive = function (item, currentId) {
+    if (!item || !currentId) return false;
+    return (item.roomtypes || []).some(function (rt) { return String(rt && rt.id) === String(currentId); });
+  };
+
   BaseDataMapper.prototype.updateMetaTags = function (pageSEO) {
     var hp = this.getHomepage();
     var globalSEO = (hp && hp.seo) || {};

@@ -20,6 +20,7 @@ class PopupManager {
         this._baseMapper = window.BaseMapper ? new BaseMapper() : null;
         this._escHandler = null;
         this._resizeHandler = null;
+      this._disabledPopupIds = new Set();
     }
 
     /**
@@ -87,6 +88,8 @@ class PopupManager {
         const now = new Date();
         const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
 
+        this.trackEnabledToggles(popupData);
+
         const activePopups = popupData
             .filter(p => {
                 if (!p.enabled) return false;
@@ -101,9 +104,9 @@ class PopupManager {
         activePopups.forEach(p => {
             this.getSelectedImages(p).forEach((url, idx) => {
                 const boxId = p.id + '_' + idx;
-                // '오늘 하루 보지 않기'는 실사이트에서만 적용한다.
-                // 미리보기에서는 편집 중 팝업이 안 보이면 확인이 안 되므로 무시한다.
-                if (!this.isPreviewMode && this.isHiddenToday(boxId)) return;
+                // preview는 sessionStorage, 실사이트는 localStorage 기준으로 숨김 상태를 유지한다.
+                // 프리뷰에서도 편집 중 데이터 갱신마다 닫은 팝업이 다시 뜨지 않게 한다.
+                if (this.isHiddenToday(boxId)) return;
                 this.boxes.push({
                     boxId: boxId,
                     popupId: p.id,
@@ -120,6 +123,37 @@ class PopupManager {
         } else {
             this.hide();
         }
+    }
+
+    /**
+     * preview에서 enabled false -> true로 다시 켠 팝업은 숨김 상태를 초기화한다.
+     */
+    trackEnabledToggles(popupData) {
+      if (!this.isPreviewMode || !Array.isArray(popupData)) return;
+
+      popupData.forEach((p) => {
+        if (!p || !p.id) return;
+        if (!p.enabled) {
+          this._disabledPopupIds.add(p.id);
+          return;
+        }
+
+        if (this._disabledPopupIds.has(p.id)) {
+          this.clearHiddenForPopup(p);
+          this._disabledPopupIds.delete(p.id);
+        }
+      });
+    }
+
+    clearHiddenForPopup(popup) {
+      this.getSelectedImages(popup).forEach((url, idx) => {
+        const boxId = popup.id + '_' + idx;
+        try {
+          this._dismissStore().removeItem('popup_hidden_' + boxId);
+        } catch (e) {
+          // 무시
+        }
+      });
     }
 
     /**
@@ -434,7 +468,7 @@ class PopupManager {
 }
 
 // 팝업 박스 최대 가로폭 (styles/popup.css .popup-content max-width 와 동일하게 유지)
-PopupManager.MAX_BOX_WIDTH = 700;
+PopupManager.MAX_BOX_WIDTH = 380;
 
 // 전역 인스턴스 생성
 window.PopupManager = PopupManager;
