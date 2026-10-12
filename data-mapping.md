@@ -60,7 +60,7 @@ roomStructures[0] + "/ " + 값≥1인 항목들 나열
 
 ## common/header.html
 
-> F 메뉴 구조: ABOUT(펜션소개/외경보기) · ROOMS · SPECIAL · RESERVE 4개. PC lnb / 모바일 aside / 전체메뉴(allmenu-wrap) **3곳에 동일 메뉴**가 존재하므로 동적 매핑은 모든 인스턴스에 적용된다.
+> F 메뉴 구조: ABOUT(외부풍경/오시는길/주변관광지) · ROOMS · SPECIAL · RESERVE 4개. PC lnb / 모바일 aside / 전체메뉴(allmenu-wrap) **3곳에 동일 메뉴**가 존재하므로 동적 매핑은 모든 인스턴스에 적용된다.
 
 | data-\* 속성       | 요소                                         | JSON 경로                                                                      |
 | ------------------ | -------------------------------------------- | ------------------------------------------------------------------------------ |
@@ -260,7 +260,7 @@ hero.images[isSelected] 기준:
 
 ### 헤더 메뉴 구조 (common/header.html 3곳: PC lnb / 모바일 aside / 전체메뉴 동일)
 
-- ABOUT: 펜션소개(`/main.html`) · 오시는길(`/directions.html`)
+- ABOUT: 외부풍경(`/main.html`) · 오시는길(`/directions.html`)
 - ROOMS: 미리보기(`/layout-map.html`, `data-menu-id="layout-map"` → `layoutMap.enabled` 토글) + roomtypes(동적)
 - SPECIAL: facilities(동적) / RESERVE: 예약하기(booking) · 이용안내(`/reservation.html`)
 
