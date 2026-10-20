@@ -140,6 +140,9 @@
     var current = this.getCurrentRoomtype();
     var currentId = current && current.id;
     nav.querySelectorAll('[data-generated="nav"]').forEach(function (li) { li.remove(); });
+    // 첫 li 는 "미리보기"(layout-map) 다. 미리보기가 꺼져 있으면 눌러도 404 이므로 숨긴다.
+    var preview = nav.querySelector('li:not([data-generated])');
+    if (preview) preview.style.display = this.isLayoutMapEnabled() ? '' : 'none';
     var self = this;
     var roomItems = this.getRoomMenuItems(this.getRoomtypes(), function (rt) { return (rt && rt.name) || ''; });
     // 그룹 안이면 그 그룹의 객실만 펼친다.

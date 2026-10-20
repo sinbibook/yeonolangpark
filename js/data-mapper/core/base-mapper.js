@@ -266,6 +266,31 @@
     return (item.roomtypes || []).some(function (rt) { return String(rt && rt.id) === String(currentId); });
   };
 
+  // ── 객실 미리보기(layout-map) 사용 여부 ──────────────────
+  // layout-map.html 이 404 로 보내는 기준과 같아야 한다.
+  // 섹션이 없거나 enabled=false 면 그 페이지는 열리지 않는다.
+  BaseDataMapper.prototype.isLayoutMapEnabled = function () {
+    var page = this.getPages().layoutMap;
+    var section = page && page.sections && page.sections[0];
+    return Boolean(section) && section.enabled !== false;
+  };
+
+  // 대메뉴 ROOMS(헤더 / 푸터)가 갈 곳.
+  //   미리보기 켜짐 → layout-map.html (객실 미리보기)
+  //   미리보기 꺼짐 → 첫 번째 객실 상세 (헤더 객실 메뉴의 첫 항목과 같은 곳 — 그룹 숙소면 첫 그룹의 첫 객실)
+  // 객실이 하나도 없으면 갈 곳이 없으므로 null — 호출부가 원래 href 를 둔다.
+  BaseDataMapper.prototype.getRoomsEntryLink = function (roomtypes) {
+    if (this.isLayoutMapEnabled()) return 'layout-map.html';
+    var self = this;
+    var link = null;
+    this.getRoomMenuItems(roomtypes, function (rt) { return (rt && rt.name) || ''; }).some(function (item) {
+      if (!String(self.getRoomMenuLabel(item)).trim()) return false;
+      link = self.getRoomMenuLink(item);
+      return true;
+    });
+    return link;
+  };
+
   BaseDataMapper.prototype.updateMetaTags = function (pageSEO) {
     var hp = this.getHomepage();
     var globalSEO = (hp && hp.seo) || {};

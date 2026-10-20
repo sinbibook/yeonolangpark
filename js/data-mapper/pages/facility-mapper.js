@@ -218,8 +218,7 @@
         tslide.className = 'swiper-slide item';
         var txt = document.createElement('div');
         txt.className = 'txt';
-        txt.innerHTML = '<p class="btxt">SPECIAL ' + pad2(i + 1) + '</p><p class="stxt"></p>';
-        txt.querySelector('.stxt').textContent = f.description || '';
+        txt.innerHTML = '<p class="btxt">SPECIAL ' + pad2(i + 1) + '</p>';
         tslide.appendChild(txt);
         txtWrap.appendChild(tslide);
       }
