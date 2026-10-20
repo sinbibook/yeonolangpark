@@ -268,14 +268,13 @@
         titWrap.appendChild(con);
       }
 
-      // spec-txt: 번호 + 시설 설명(description)
+      // spec-txt: 번호만 (시설 설명은 노출하지 않는다)
       if (txtWrap) {
         var tslide = document.createElement('div');
         tslide.className = 'swiper-slide item';
         var txt = document.createElement('div');
         txt.className = 'txt';
-        txt.innerHTML = '<p class="btxt">SPECIAL ' + pad2(i + 1) + '</p><p class="stxt"></p>';
-        txt.querySelector('.stxt').textContent = f.description || '';
+        txt.innerHTML = '<p class="btxt">SPECIAL ' + pad2(i + 1) + '</p>';
         tslide.appendChild(txt);
         txtWrap.appendChild(tslide);
       }

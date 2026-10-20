@@ -8,6 +8,11 @@
         <li><a href="./reservation.html">RESERVE</a></li>
       </ul>
     </div>
+    <!-- data-* 속성 : data-footer-rural-stay-mark-wrap (customFields.footer.ruralStayMark 가 있을 때만 노출, 기본 숨김)
+         data-footer-rural-stay-mark : 농어촌민박사업자 이미지 (표시마크 + 신고번호, alt = description) -->
+    <div class="ft_rural_stay_mark_wrap" data-footer-rural-stay-mark-wrap style="display: none">
+      <img class="ft_rural_stay_mark" src="" alt="농어촌민박사업자" data-footer-rural-stay-mark />
+    </div>
     <!-- data-* 속성 : data-footer-phone (property.contactPhone) / data-footer-phone-link (tel: 링크) -->
     <div class="ft_tel">
       <a href="tel:" data-footer-phone-link>T.<span data-footer-phone>070-0000-0000</span></a>

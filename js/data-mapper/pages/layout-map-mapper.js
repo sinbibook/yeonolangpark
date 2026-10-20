@@ -31,9 +31,9 @@
 
   LayoutMapMapper.prototype.mapPage = function () {
     // enabled=false(또는 섹션 없음)면 404로 리다이렉트 (c/l/e 동일)
-    var pages = this.getPages();
-    var sec = pages.layoutMap && pages.layoutMap.sections && pages.layoutMap.sections[0];
-    if (!sec || sec.enabled === false) {
+    // 헤더 "미리보기" li 숨김, 대메뉴·푸터 ROOMS 이동처(첫 객실 상세), room.html 탭 "미리보기" 숨김도
+    // 같은 기준(isLayoutMapEnabled)으로 정한다.
+    if (!this.isLayoutMapEnabled()) {
       window.location.href = '404.html';
       return;
     }

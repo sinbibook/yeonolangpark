@@ -86,11 +86,21 @@ roomStructures[0] + "/ " + 값≥1인 항목들 나열
 >   | `data-rooms-submenu` | ROOMS 서브메뉴 컨테이너 `<ul>` (3곳) | — (동적 생성 기준점) |
 >   | `data-room-menu-link` | 미리보기 링크 (`/layout-map.html`) | — (동적 생성 앵커, 이 뒤에 객실 `<li>` 추가) |
 >   | `data-facility-menu-link` | SPECIAL 서브메뉴 컨테이너 `<ul>` (3곳) | `property.facilities[].name` (컨테이너 비우고 동적 생성) |
->   | `data-menu-id="layout-map"` | ROOMS > 미리보기 `<li>`(=layout-map) | `customFields.pages.layoutMap.sections[0].enabled` (false면 숨김) |
+>   | `data-menu-id="layout-map"` | ROOMS > 미리보기 `<li>`(=layout-map) | `customFields.pages.layoutMap.sections[0].enabled` (섹션 없음 / false면 숨김) |
+>   | `data-rooms-link` | 대메뉴 ROOMS `<a>` (PC lnb / 전체메뉴 2곳, 모바일 aside 는 링크 아님) | `customFields.pages.layoutMap.sections[0].enabled` (켜짐 → `layout-map.html` / 꺼짐 → 첫 객실 상세) |
 >   | `data-allmenu-bg` | 전체메뉴(allmenu-wrap) 오버레이 배경 `.bg02` | `property.images[0].thumbnail[isSelected][0].url` (없으면 exterior → placeholder) |
 >   | `data-travel-menu` | ABOUT > 주변관광지 `<li>` (3곳, 오시는길 아래) | `customFields.pages.nearbyAttractions.sections[0].enabled` (false면 숨김) |
 
 - ROOMS 서브메뉴: `customFields.roomtypes[].name` 기준 `<li><a href="room.html?room_id={id}">` 생성.
+- 대메뉴 ROOMS(`data-rooms-link`) 이동처 — `BaseDataMapper.getRoomsEntryLink()`, `HeaderFooterMapper.mapPageToggles()` 에서 매 렌더 다시 넣는다.
+
+  | `layoutMap` | ROOMS 클릭 시                                                     |
+  | ----------- | ----------------------------------------------------------------- |
+  | 켜짐        | `layout-map.html` (객실 미리보기)                                 |
+  | 꺼짐        | 첫 번째 객실 상세 (ROOMS 서브메뉴 첫 객실 항목과 같음, 그룹 반영) |
+
+  판정은 `layout-map.html` 의 404 기준과 같은 `isLayoutMapEnabled()`(섹션 없음 / `enabled:false` → 꺼짐).
+  꺼진 상태에서 `layout-map.html` 로 두면 404 로 튕긴다. 객실이 하나도 없으면 원래 href 를 둔다.
 - SPECIAL 서브메뉴: `property.facilities[].name` 기준 `<li><a href="facility.html?id={id}">` 생성.
 - **우측 하단 플로팅 버튼**(`common/header.html`): 예약하기 `.ft_btn_reserve.for_m`(talk.png, `data-booking-link`, 모바일만) + 상담하기 `#talk_custom_button`(consult.png, `data-consult-button`, 총판A + tripPropertyId 일 때). 다른 템플릿과 같은 구현.
 - **모바일 헤더 예약 아이콘**(`.btn_reserve`, `data-booking-link`): 특가 배지(`price.png`) + 예약 아이콘(`mbt_reserve01.png`, 스크롤 시 `mbt_reserveo01.png`). ≡ 왼쪽, YBS 오른쪽.
@@ -131,7 +141,8 @@ roomStructures[0] + "/ " + 값≥1인 항목들 나열
 | `data-footer-business-number` | 사업자번호 `<span>`         | `property.businessInfo.businessNumber`     |
 | `data-footer-representative`  | 대표자 `<span>`             | `property.businessInfo.representativeName` |
 
-- `.ft_link`(ABOUT/ROOMS/SPECIAL/RESERVE), 개인정보처리방침은 **정적 유지**(트립일레븐 공통). copyright 는 `property.tripProviderName` 으로 치환한다(아래 「카피라이트」).
+- `.ft_link`(ABOUT/ROOMS/SPECIAL/RESERVE), 개인정보처리방침은 **정적 유지**(트립일레븐 공통).
+  단 ROOMS(`data-footer-room-link`)는 헤더 대메뉴 ROOMS 와 같은 곳(`getRoomsEntryLink()`)으로 바꾼다 — 객실이 없으면 `room.html`. copyright 는 `property.tripProviderName` 으로 치환한다(아래 「카피라이트」).
 
 ---
 
@@ -167,7 +178,7 @@ roomStructures[0] + "/ " + 값≥1인 항목들 나열
 | `data-index-about-description`   | `.main_about .fr p.stxt`(첫 번째)         | `essence.description` (없으면 `창밖으로 이어지는 자연의 풍경 속에서 일상의 흐름을 잠시 내려놓고 {property.name}에서 조용히 머무는 시간의 여유를 느껴보세요.` fallback) |
 | `data-index-special-slides`      | `.main_special .spec-img .swiper-wrapper` | `property.facilities[]` (이미지 슬라이드)                                                                                                                              |
 | `data-index-special-titles`      | `.main_special .spec-tit`                 | `property.facilities[]` (각 `.txt-con` stxt=`name`)                                                                                                                    |
-| `data-index-special-texts`       | `.main_special .spec-txt .swiper-wrapper` | `property.facilities[]` (각 슬라이드 stxt=`description`)                                                                                                               |
+| `data-index-special-texts`       | `.main_special .spec-txt .swiper-wrapper` | `property.facilities[]` (각 슬라이드 `SPECIAL 0N` 번호만, 시설 설명 미노출)                                                                                                               |
 | `data-index-room-slides`         | `.main_room .preivew .swiper-wrapper`     | `customFields.roomtypes[]` (+ `rooms[]` id매칭 구조)                                                                                                                   |
 | `data-index-closing-description` | `.main_reserve .cont p`(텍스트)           | `customFields.pages.index.sections[0].closing.description`                                                                                                             |
 | `data-booking-link`              | `.main_reserve .cont a` 예약하기          | `property.realtimeBookingId`                                                                                                                                           |
@@ -295,7 +306,7 @@ hero.images[isSelected] 기준:
 | data-\* 속성               | 요소                                       | JSON 경로                                                                                            |
 | -------------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------- |
 | `data-room-hero-slides`    | `.sub_visual .svisual .swiper-wrapper`     | `roomtypes[current]` interior 이미지[isSelected] (배경 슬라이드)                                     |
-| `data-room-list-nav`       | `#snb_wrap ul`                             | `roomtypes[]` (미리보기 li 뒤 동적 생성, 현재 객실 `active`/`on`)                                    |
+| `data-room-list-nav`       | `#snb_wrap ul`                             | `roomtypes[]` (미리보기 li 뒤 동적 생성, 현재 객실 `active`/`on`). 미리보기 li 는 `layoutMap` 꺼지면 숨김 |
 | `data-room-name`           | info `.btxt` + 표 객실명(PC/모바일)        | `roomtypes[current].name`                                                                            |
 | `data-room-structure`      | info `.stxt` + 표 유형(PC/모바일)          | `rooms[j].roomStructures[0] + "/ " + totalRoomCount 값≥1 한글` (id 매칭)                             |
 | `data-room-image-main`     | info `.fl .img p` (배경)                   | `roomtypes[current]` interior[0]                                                                     |
@@ -350,7 +361,7 @@ hero.images[isSelected] 기준:
 | `data-facility-gallery`     | `.special_wrap .list`                     | `facilities[current].images[isSelected]` (각 li p배경 순서대로)                                                          |
 | `data-index-special-slides` | `.main_special .spec-img .swiper-wrapper` | `property.facilities[]` (이미지 슬라이더, index와 동일)                                                                  |
 | `data-index-special-titles` | `.main_special .spec-tit`                 | `facilities[]` (stxt=name)                                                                                               |
-| `data-index-special-texts`  | `.main_special .spec-txt .swiper-wrapper` | `facilities[]` (stxt=description)                                                                                        |
+| `data-index-special-texts`  | `.main_special .spec-txt .swiper-wrapper` | `facilities[]` (`SPECIAL 0N` 번호만, 설명 미노출)                                                                                        |
 | `data-closing-description`  | `.main_reserve .cont p`                   | `pages.index.sections[0].closing.description` (공용)                                                                     |
 | `data-booking-link`         | `.main_reserve` 예약하기 `<a>`            | `property.realtimeBookingId`                                                                                             |
 
@@ -389,7 +400,7 @@ hero.images[isSelected] 기준:
   - `.fr .txt .stxt.mg60t` ← `block.description` (\n→`<br>`, 없으면 생략) — **설명**
   - `.fr .txt .stxt.cap.mg40t` ← `block.images[isSelected][0].description` (없으면 생략) — **이미지설명**
 - 레이아웃은 전 블록 동일(이미지 좌/텍스트 우). 좌우 교차가 필요하면 별도 CSS 추가 필요.
-- **메뉴 노출/404**: 헤더 ABOUT > 주변관광지(`data-travel-menu`)는 `nearbyAttractions.enabled=false`면 숨김. 매퍼는 `sections[0]` 없음 또는 `enabled=false`면 **무조건** `404.html`로 리다이렉트(c/l/e 동일, preview 포함). `layout-map`도 동일 방식(`layoutMap.enabled`).
+- **메뉴 노출/404**: 헤더 ABOUT > 주변관광지(`data-travel-menu`)는 `nearbyAttractions.enabled=false`면 숨김. 매퍼는 `sections[0]` 없음 또는 `enabled=false`면 **무조건** `404.html`로 리다이렉트(c/l/e 동일, preview 포함). `layout-map`도 동일 방식(`layoutMap.enabled`, `isLayoutMapEnabled()`).
 
 ## 팝업 (popup)
 
